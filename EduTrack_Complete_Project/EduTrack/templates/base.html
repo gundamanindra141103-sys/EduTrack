@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}EduTrack{% endblock %} | EduTrack</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark nav-main">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">EduTrack<span class="brand-dot">.</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav me-auto">
+      {% if current_user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('courses') }}">Courses</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('assignments') }}">Assignments</a></li>
+        {% if current_user.role in ['teacher','admin'] %}
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('attendance') }}">Attendance</a></li>
+        {% endif %}
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('results') }}">Results</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('resources') }}">Resources</a></li>
+        {% if current_user.role == 'admin' %}<li class="nav-item"><a class="nav-link" href="{{ url_for('users') }}">Users</a></li>{% endif %}
+      {% endif %}
+      </ul>
+      <div class="d-flex align-items-center gap-3">
+      {% if current_user.is_authenticated %}
+        <span class="text-white-50 small">{{ current_user.name }} · {{ current_user.role|title }}</span>
+        <a class="btn btn-sm btn-outline-light" href="{{ url_for('logout') }}">Sign out</a>
+      {% else %}
+        <a class="btn btn-sm btn-outline-light" href="{{ url_for('login') }}">Sign in</a>
+        <a class="btn btn-sm btn-accent" href="{{ url_for('register') }}">Create account</a>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+<main class="container py-4">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}{% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    {% endfor %}{% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer class="footer mt-5 py-4"><div class="container small text-secondary">© {{ today.year }} EduTrack · Education Management System · Academic mini project</div></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body></html>

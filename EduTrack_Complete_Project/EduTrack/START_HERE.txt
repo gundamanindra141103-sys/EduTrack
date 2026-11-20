@@ -1,0 +1,16 @@
+EDUTRACK - START HERE
+1. Extract the ZIP and open this folder in VS Code.
+2. Open Terminal.
+3. Create environment: py -m venv .venv
+4. Activate: .venv\Scripts\Activate.ps1
+5. Install: pip install -r requirements.txt
+6. Run: python app.py
+7. Browse: http://127.0.0.1:5000
+
+Demo login:
+Admin: admin@edutrack.local / Admin@123
+Teacher: teacher@edutrack.local / Teacher@123
+Student: student@edutrack.local / Student@123
+
+Change demo passwords and SECRET_KEY before any deployment.
+See README.md and EduTrack_Project_Report.docx for details.

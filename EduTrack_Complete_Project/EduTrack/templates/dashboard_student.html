@@ -1,0 +1,89 @@
+
+{% extends "base.html" %}
+
+{% block title %}Student dashboard{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <div>
+        <span class="eyebrow">STUDENT WORKSPACE</span>
+        <h2 class="fw-bold mt-1">Hello, {{ current_user.name }} 👋</h2>
+        <p class="text-secondary">Here is a snapshot of your learning activity.</p>
+    </div>
+    <a class="btn btn-accent" href="{{ url_for('assignments') }}">
+        View assignments
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="text-secondary small">Available courses</div>
+            <div class="display-6 fw-bold">{{ courses|length }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="text-secondary small">Present records</div>
+            <div class="display-6 fw-bold">{{ attendance_count }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="text-secondary small">Recent results</div>
+            <div class="display-6 fw-bold">{{ results|length }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-7">
+        <div class="content-card">
+            <h5 class="fw-bold mb-3">Available assignments</h5>
+
+            {% for a in assignments %}
+            <div class="list-row">
+                <div>
+                    <b>{{ a.title }}</b>
+                    <div class="small text-secondary">
+                        {{ a.course.title }} · Due {{ a.due_date.strftime('%d %b %Y') }}
+                    </div>
+                </div>
+
+                <span class="badge text-bg-light">
+                    {{ 'Overdue' if a.due_date < today else 'Upcoming' }}
+                </span>
+            </div>
+            {% else %}
+            <p class="text-secondary">No assignments available.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="content-card">
+            <h5 class="fw-bold mb-3">Recent results</h5>
+
+            {% for r in results %}
+            <div class="list-row">
+                <div>
+                    <b>{{ r.course.code }}</b>
+                    <div class="small text-secondary">
+                        {{ "%.2f"|format(r.marks) }} /
+                        {{ "%.2f"|format(r.maximum_marks) }} marks
+                    </div>
+                </div>
+
+                <b>{{ (r.marks/r.maximum_marks*100)|round(1) }}%</b>
+            </div>
+            {% else %}
+            <p class="text-secondary">No results recorded yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

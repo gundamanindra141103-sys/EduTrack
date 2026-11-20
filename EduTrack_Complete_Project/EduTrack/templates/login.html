@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}Sign in{% endblock %}
+{% block content %}<div class="auth-wrap"><div class="auth-card"><span class="eyebrow">WELCOME BACK</span><h2 class="fw-bold mt-2">Sign in to EduTrack</h2><p class="text-secondary">Access your academic workspace.</p>
+<form method="post" class="mt-4"><label class="form-label">Email address</label><input class="form-control mb-3" type="email" name="email" required>
+<label class="form-label">Password</label><input class="form-control mb-4" type="password" name="password" required>
+<button class="btn btn-accent w-100">Sign in</button></form><p class="small text-center mt-3 mb-0">New here? <a href="{{ url_for('register') }}">Create a student account</a></p>
+</div></div>{% endblock %}
